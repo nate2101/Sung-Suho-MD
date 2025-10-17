@@ -38,11 +38,11 @@ lite({
                     buttons: [
                         {
                             name: "quick_reply",
-                            buttonParamsJson: `{"display_text":"🔄 Refresh","id":",menu"}`
+                            buttonParamsJson: `{"display_text":"🔄 Refresh","id":".menu"}`
                         },
                         {
                             name: "quick_reply",
-                            buttonParamsJson: `{"display_text":"🏠 Main Menu","id":",button"}`
+                            buttonParamsJson: `{"display_text":"🏠 Main Menu","id":".button"}`
                         },
                         {
                             name: "cta_url",
