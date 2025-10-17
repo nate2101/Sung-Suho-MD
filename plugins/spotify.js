@@ -50,7 +50,7 @@ lite({
 ┃ ⏱ *Duration:* ${durationMinutes} min
 ┃ 🌐 *Link:* ${track.link}
 ┃
-┃ ⚙️ *Powered by:* NovaCore AI
+┃ ⚙️ *Powered by:* Lord Sung
 ╰━━━━━━━━━━━━━━━━⬣
 `.trim();
 
