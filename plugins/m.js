@@ -3,7 +3,7 @@ const { generateWAMessageFromContent, proto, prepareWAMessageMedia } = require('
 
 lite({
     pattern: "m",
-    alias: ["menu", "help"],
+    alias: ["menu", "h"],
     react: "📜",
     desc: "Display an interactive command menu",
     category: "main",
@@ -24,7 +24,7 @@ lite({
             cards.push({
                 header: proto.Message.InteractiveMessage.Header.create({
                     ...(await prepareWAMessageMedia(
-                        { image: { url: 'https://files.catbox.moe/lvomei.jpg' } },
+                        { image: { url: 'https://files.catbox.moe/hlbirp.jpg' } },
                         { upload: conn.waUploadToServer }
                     )),
                     title: `⚔️ ${category.toUpperCase()} ⚔️`,
