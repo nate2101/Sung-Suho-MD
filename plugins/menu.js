@@ -1,7 +1,7 @@
 import axios from "axios"
 import fs from "fs"
 import moment from "moment-timezone"
-import { lite, commands } from "../lite.js"
+import { lite } from "../lite.js"
 import { getPrefix } from "../lib/prefix.js"
 import { runtime } from "../lib/functions.js"
 import config from "../settings.js"
