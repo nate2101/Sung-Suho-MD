@@ -1,36 +1,35 @@
-import axios from "axios"
-import fs from "fs"
-import moment from "moment-timezone"
-import { lite } from "../lite.js"
-import { getPrefix } from "../lib/prefix.js"
-import { runtime } from "../lib/functions.js"
-import config from "../settings.js"
+const fs = require('fs');
+const axios = require('axios');
+const moment = require('moment-timezone');
+const config = require('../settings');
+const { lite, commands } = require('../lite');
+const { getPrefix } = require('../lib/prefix');
+const { runtime } = require('../lib/functions');
 
 lite({
   pattern: "menu",
   react: "🤖",
-  alias: ["main", "all"],
+  alias: ["help", "allmenu"],
   desc: "Show bot command list",
   category: "main",
   filename: __filename
-},
-async (conn, mek, m, { from, pushname, reply }) => {
+}, async (conn, mek, m, { from, pushname, reply }) => {
   try {
-    const prefix = getPrefix()
-    const time = moment().tz("Africa/Harare").format("HH:mm:ss")
-    const date = moment().tz("Africa/Harare").format("DD/MM/YYYY")
+    const prefix = getPrefix();
+    const time = moment().tz("Africa/Harare").format("HH:mm:ss");
+    const date = moment().tz("Africa/Harare").format("DD/MM/YYYY");
 
-    // 🍴 Fetch forks from your GitHub repo
-    const repoUrl = "https://api.github.com/repos/NaCkS-ai/Sung-Suho-MD" // change this to your repo
-    let forks = 0
+    // 🍴 Get GitHub forks (acts as daily users)
+    const repoUrl = "https://api.github.com/repos/NaCkS-ai/Sung-Suho-MD";
+    let forks = 0;
     try {
-      const res = await axios.get(repoUrl)
-      forks = res.data.forks_count || 0
+      const res = await axios.get(repoUrl);
+      forks = res.data.forks_count || 0;
     } catch {
-      forks = "N/A"
+      forks = "N/A";
     }
 
-    // 🎭 Emoji map per category
+    // 🌀 Icons per category
     const categoryIcons = {
       main: "💠",
       ai: "🧠",
@@ -44,18 +43,18 @@ async (conn, mek, m, { from, pushname, reply }) => {
       settings: "⚙️",
       download: "📥",
       other: "🕵️‍♂️"
-    }
+    };
 
-    // 🗂️ Sort commands into categories
-    const categorized = {}
+    // 🗂️ Categorize commands
+    const categorized = {};
     for (let cmd of commands) {
-      if (!cmd.pattern || cmd.dontAddCommandList) continue
-      const cat = cmd.category || "other"
-      if (!categorized[cat]) categorized[cat] = []
-      categorized[cat].push(cmd.pattern)
+      if (!cmd.pattern || cmd.dontAddCommandList) continue;
+      const cat = cmd.category || "other";
+      if (!categorized[cat]) categorized[cat] = [];
+      categorized[cat].push(cmd.pattern);
     }
 
-    // 🧾 Build menu text
+    // 🧾 Build menu layout
     let menuText = `
 ╭─────────────❍『 ${config.BOT_NAME} 』❍─────────────╮
 │ 👤 ᴜsᴇʀ: ${pushname}
@@ -65,29 +64,29 @@ async (conn, mek, m, { from, pushname, reply }) => {
 │ 💠 ᴘʀᴇғɪx: [ ${prefix} ]
 │ ⏳ ʀᴜɴᴛɪᴍᴇ: ${runtime(process.uptime())}
 │ 📜 ᴛᴏᴛᴀʟ ᴄᴍᴅs: ${commands.length}
-│ 🍴 daily users: ${forks}
+│ 🍴 ғᴏʀᴋs: ${forks}
 │ 👑 ᴅᴇᴠ: Lord Sung
 │ 🚀 ᴠᴇʀsɪᴏɴ: ${config.version}
 ╰───────────────────────────────────────╯
 > ${config.DESCRIPTION}
 
 ╭─────────────❍『 ᴄᴏᴍᴍᴀɴᴅ ʟɪsᴛ 』❍─────────────╮
-`
+`;
 
     for (const [cat, cmds] of Object.entries(categorized)) {
-      const icon = categoryIcons[cat] || "📁"
+      const icon = categoryIcons[cat] || "📁";
       menuText += `
 ┌──『 ${icon} ${cat.toUpperCase()} 』
 ${cmds.map(c => `│ ⬡ ${c}`).join("\n")}
 └──────────────────✦
-`
+`;
     }
 
     menuText += `
 ╰──────────────❍『 ᴇɴᴅ ᴏғ ᴍᴇɴᴜ 』❍──────────────╯
-`
+`;
 
-    // 🖼️ Send image menu
+    // 🖼️ Send menu with image
     await conn.sendMessage(from, {
       image: { url: config.MENU_IMAGE_URL },
       caption: menuText,
@@ -101,19 +100,19 @@ ${cmds.map(c => `│ ⬡ ${c}`).join("\n")}
           serverMessageId: 143
         }
       }
-    }, { quoted: mek })
+    }, { quoted: mek });
 
-    // 🎵 Optional: background voice (menu sound)
+    // 🎵 Optional sound for menu
     try {
       await conn.sendMessage(from, {
         audio: fs.readFileSync("./all/menu.m4a"),
         mimetype: "audio/mp4",
         ptt: true
-      }, { quoted: mek })
+      }, { quoted: mek });
     } catch {}
 
   } catch (e) {
-    console.error(e)
-    reply(`${e}`)
+    console.error("Menu Error:", e);
+    reply(`❌ *Error:* ${e.message}`);
   }
-})
+});
