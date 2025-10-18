@@ -9,7 +9,7 @@ import config from "../settings.js"
 lite({
   pattern: "menu",
   react: "🤖",
-  alias: ["help", "allmenu"],
+  alias: ["main", "all"],
   desc: "Show bot command list",
   category: "main",
   filename: __filename
