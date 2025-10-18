@@ -1,87 +1,79 @@
 const { lite } = require('../lite');
-const { prepareWAMessageMedia, generateWAMessageFromContent } = require('@whiskeysockets/baileys');
+const config = require('../settings');
 
 lite({
-  pattern: "owner",
-  alias: ["creator", "boss"],
-  react: "👑",
-  desc: "Show owner information and send vCard",
-  category: "main",
-  filename: __filename
-}, async (conn, mek, m, { from, reply }) => {
-  try {
-    // ---------- EDIT THESE ----------
-    const OWNER_NAME = "Lord Sung";
-    const OWNER_NUMBER = "27649342626"; // include country code e.g. +27...
-    const OWNER_EMAIL = "sungdev00@gmail.com";
-    const OWNER_GITHUB = "https://github.com/NaCkS-ai";
-    const OWNER_INSTAGRAM = "https://instagram.com/lordsung";
-    const OWNER_BIO = "Developer • Bot Creator • Keep calm and code on.";
-    const OWNER_AVATAR = "https://files.catbox.moe/lvomei.jpg"; // avatar image
-    // ---------------------------------
+    pattern: "owner",
+    alias: ["developer", "dev", "creator"],
+    desc: "Displays developer information with a vCard",
+    category: "owner",
+    react: "👨‍💻",
+    filename: __filename
+}, async (conn, mek, m, { from, reply, pushname }) => {
+    try {
+        const name = pushname || "User";
 
-    // Build vCard string
-    const vcard =
-`BEGIN:VCARD
+        // Owner info text
+        const caption = `
+╭───『 🧠 *SUHO-MD DEVELOPER INFO* 🧠 』
+│
+│ 👋 Hello *${name}*!
+│ I'm *Mr. Sung*, creator of *${config.BOT_NAME}*.
+│
+│ 💼 *Owner Details:*
+│ ─────────────────────
+│ 🧠 Name      : Mr. Sung
+│ 🧧 Alias     : Lord Sung
+│ 🌐 Role      : Developer / Designer
+│ ☎️ Contact   : wa.me/27649342626
+│ 🧰 GitHub    : github.com/NaCkS-ai
+│ ▶️ YouTube   : youtube.com/@malvintech2
+│ 💬 Message   : “Innovation isn’t magic — it’s precision.”
+│
+╰───────────────────────────────╯
+⚡ Powered by *${config.BOT_NAME}* • ${config.version}
+        `.trim();
+
+        // Fake Meta AI vCard (realistic but not personal)
+        const vcard = `
+BEGIN:VCARD
 VERSION:3.0
-FN:${OWNER_NAME}
-N:${OWNER_NAME};;;;
-ORG:Sung Suho MD;
-TITLE:Developer
-TEL;type=CELL;type=VOICE;waid=${OWNER_NUMBER.replace(/\D/g,'')}:${OWNER_NUMBER}
-EMAIL:${OWNER_EMAIL}
-URL:${OWNER_GITHUB}
-NOTE:${OWNER_BIO}
-END:VCARD`;
+FN:Mr. Sung
+ORG:Suho-MD Development;
+TITLE:Lead Developer & System Architect;
+TEL;type=CELL;type=VOICE;waid=12363621958:+1 236 362 1958
+EMAIL:support@suho-md.dev
+URL:https://github.com/NaCkS-ai
+ADR;type=WORK:;;Meta HQ Building;Digital City;Cyberspace;;Earth
+NOTE:Creator of Suho-MD - AI-powered WhatsApp Bot
+END:VCARD
+        `.trim();
 
-    // 1) send the vCard (contacts message)
-    await conn.sendMessage(from, {
-      contacts: {
-        displayName: OWNER_NAME,
-        contacts: [
-          {
-            vcard
-          }
-        ]
-      }
-    }, { quoted: mek });
+        // Send vCard (looks like a contact card)
+        await conn.sendMessage(from, {
+            contacts: {
+                displayName: "Mr. Sung",
+                contacts: [{ vcard }]
+            }
+        }, { quoted: mek });
 
-    // 2) prepare an owner info card (hydrated template with avatar + buttons)
-    const image = await prepareWAMessageMedia({ image: { url: OWNER_AVATAR } }, { upload: conn.waUploadToServer });
+        // Send info message with image
+        await conn.sendMessage(from, {
+            image: { url: config.MENU_IMAGE_URL || 'https://telegra.ph/file/3b66b4f8bd5c0556d4fb9.jpg' },
+            caption,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 777,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363402507750390@newsletter',
+                    newsletterName: '『 sᴜʜᴏ ᴍᴅ 』',
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
 
-    const content = `
-╭━━〔 👑 OWNER INFO 〕━━⬣
-┃ Name: ${OWNER_NAME}
-┃ Phone: ${OWNER_NUMBER}
-┃ Email: ${OWNER_EMAIL}
-┃ GitHub: ${OWNER_GITHUB}
-┃ Instagram: ${OWNER_INSTAGRAM}
-┃
-┃ ${OWNER_BIO}
-╰━━━━━━━━━━━━━━━━⬣
-(You can save the contact — the vCard was sent above)
-`.trim();
-
-    const template = {
-      templateMessage: {
-        hydratedTemplate: {
-          hydratedContentText: content,
-          hydratedFooterText: '🔰 Owner — Sung Suho MD',
-          ...image,
-          hydratedButtons: [
-            { hydratedURLButton: { displayText: '🌐 GitHub', url: OWNER_GITHUB } },
-            { hydratedURLButton: { displayText: '📷 Instagram', url: OWNER_INSTAGRAM } },
-            { hydratedReplyButton: { displayText: '📜 Menu', id: '.menu' } }
-          ]
-        }
-      }
-    };
-
-    const msg = generateWAMessageFromContent(from, template, {});
-    await conn.relayMessage(from, msg.message, { messageId: msg.key.id });
-
-  } catch (err) {
-    console.error("Owner Command Error:", err);
-    reply(`❌ Error sending owner info: ${err.message || err}`);
-  }
+    } catch (e) {
+        console.error("Owner Command Error:", e);
+        reply(`❌ Error: ${e.message}`);
+    }
 });
