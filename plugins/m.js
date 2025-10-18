@@ -3,7 +3,7 @@ const { generateWAMessageFromContent, proto, prepareWAMessageMedia } = require('
 
 lite({
     pattern: "m",
-    alias: ["menu", "h"],
+    alias: ["menu0", "h"],
     react: "📜",
     desc: "Display an interactive command menu",
     category: "main",
@@ -42,7 +42,7 @@ lite({
                         },
                         {
                             name: "quick_reply",
-                            buttonParamsJson: `{"display_text":"🏠 Main Menu","id":".button"}`
+                            buttonParamsJson: `{"display_text":"🏠 Main Menu","id":".menu"}`
                         },
                         {
                             name: "cta_url",
