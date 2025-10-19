@@ -19,7 +19,7 @@ lite({
     const time = moment().tz("Africa/Harare").format("HH:mm:ss");
     const date = moment().tz("Africa/Harare").format("DD/MM/YYYY");
 
-    // 🍴 Get GitHub forks (acts as daily users)
+    // 🍴 GitHub forks = bot reach
     const repoUrl = "https://api.github.com/repos/NaCkS-ai/Sung-Suho-MD";
     let forks = 0;
     try {
@@ -29,7 +29,7 @@ lite({
       forks = "N/A";
     }
 
-    // 🌀 Icons per category
+    // 🎭 Icons per category
     const categoryIcons = {
       main: "💠",
       ai: "🧠",
@@ -54,42 +54,50 @@ lite({
       categorized[cat].push(cmd.pattern);
     }
 
-    // 🧾 Build menu layout
+    // 🧾 Centered + balanced layout
     let menuText = `
-╭─────────────❍『 ${config.BOT_NAME} 』❍─────────────╮
-│ 👤 ᴜsᴇʀ: ${pushname}
-│ ⏰ ᴛɪᴍᴇ: ${time}
-│ 📅 ᴅᴀᴛᴇ: ${date}
-│ ⚙️ ᴍᴏᴅᴇ: ${config.MODE}
-│ 💠 ᴘʀᴇғɪx: [ ${prefix} ]
-│ ⏳ ʀᴜɴᴛɪᴍᴇ: ${runtime(process.uptime())}
-│ 📜 ᴛᴏᴛᴀʟ ᴄᴍᴅs: ${commands.length}
-│ 🍴 daily users: ${forks}
-│ 👑 ᴅᴇᴠ: Lord Sung
-│ 🚀 ᴠᴇʀsɪᴏɴ: ${config.version}
+╭───────────────────────────╮
+│              *${config.BOT_NAME}*
+│───────────────────────────────────────│
+│ 👤 User: ${pushname}
+│ 🕓 Time: ${time}
+│ 📅 Date: ${date}
+│ ⚙️ Mode: ${config.MODE}
+│ 💠 Prefix: [ ${prefix} ]
+│ ⏳ Runtime: ${runtime(process.uptime())}
+│ 🧾 Total Cmds: ${commands.length}
+│ 🍴 Daily users: ${forks}
+│ 👑 Developer: Lord Sung
+│ 🚀 Version: ${config.version}
 ╰───────────────────────────────────────╯
-> ${config.DESCRIPTION}
 
-╭─────────────❍『 ᴄᴏᴍᴍᴀɴᴅ ʟɪsᴛ 』❍─────────────╮
+${config.DESCRIPTION}
+
+╭───────────────────────────────────────╮
+│           🧩 COMMANDS MENU 🧩
+╰───────────────────────────────────────╯
 `;
 
+    // 🧩 Add each command category
     for (const [cat, cmds] of Object.entries(categorized)) {
       const icon = categoryIcons[cat] || "📁";
       menuText += `
-┌──『 ${icon} ${cat.toUpperCase()} 』
-${cmds.map(c => `│ ⬡ ${c}`).join("\n")}
-└──────────────────✦
+┌── ${icon} ${cat.toUpperCase()}
+${cmds.map(c => `│ ➤ ${c}`).join("\n")}
+└──────────────────────────────
 `;
     }
 
     menuText += `
-╰──────────────❍『 ᴇɴᴅ ᴏғ ᴍᴇɴᴜ 』❍──────────────╯
+╭───────────────────────────────────────╮
+│            ✦ END OF MENU ✦
+╰───────────────────────────────────────╯
 `;
 
-    // 🖼️ Send menu with image
+    // 🖼️ Send styled image + text
     await conn.sendMessage(from, {
       image: { url: config.MENU_IMAGE_URL },
-      caption: menuText,
+      caption: menuText.trim(),
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
@@ -102,7 +110,7 @@ ${cmds.map(c => `│ ⬡ ${c}`).join("\n")}
       }
     }, { quoted: mek });
 
-    // 🎵 Optional sound for menu
+    // 🎵 Optional menu sound
     try {
       await conn.sendMessage(from, {
         audio: fs.readFileSync("./all/menu.m4a"),
