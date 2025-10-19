@@ -48,10 +48,10 @@ module.exports = {
     MENTION_REPLY: process.env.MENTION_REPLY || "false",
     // make true if want auto voice reply if someone mention you 
 
-    MENU_IMAGE_URL: process.env.MENU_IMAGE_URL || "https://files.catbox.moe/pyda5w.jpg",
+    MENU_IMAGE_URL: process.env.MENU_IMAGE_URL || "https://files.catbox.moe/hlbirp.jpg",
     // add custom menu and mention reply image url
 
-    ALIVE_IMG: process.env.ALIVE_IMG || "https://files.catbox.moe/pyda5w.jpg",
+    ALIVE_IMG: process.env.ALIVE_IMG || "https://files.catbox.moe/hlbirp.jpg",
     // add img for alive msg
 
     LIVE_MSG: process.env.LIVE_MSG || 
