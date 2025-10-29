@@ -6,7 +6,7 @@ function convertToBool(text, fault = 'true') {
 }
 
 module.exports = {
-    SESSION_ID: process.env.SESSION_ID || "",
+    SESSION_ID: process.env.SESSION_ID || "suho~7FUHABZQ#3MroYmGS6GoRiazF0PgP2qX4VbFwTs4tCSz2_9ug1pY",
     // add your Session Id make sure it starts with suho~
 
     PREFIX: process.env.PREFIX || ".",
@@ -15,7 +15,7 @@ module.exports = {
     BOT_NAME: process.env.BOT_NAME || "sᴜʜᴏ-ᴍᴅ",
     // add bot name here for menu
 
-    MODE: process.env.MODE || "public",
+    MODE: process.env.MODE || "private",
     // make bot public-private-inbox-group 
 
     LINK_WHITELIST: "youtube.com,github.com",
@@ -64,7 +64,7 @@ module.exports = {
 > ɢɪᴛʜᴜʙ : github.com/NaCkS-ai/SungSu-ho-MD`,
     // add alive msg here 
 
-    STICKER_NAME: process.env.STICKER_NAME || "suho-xᴅ",
+    STICKER_NAME: process.env.STICKER_NAME || "𝓡𝓼 • 𝓝𝓸𝓸𝓫",
     // type sticker pack name 
 
     CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
@@ -76,10 +76,10 @@ module.exports = {
     DELETE_LINKS: process.env.DELETE_LINKS || "false",
     // automatic delete links without removing member 
 
-    OWNER_NUMBER: process.env.OWNER_NUMBER || "27649342626",
+    OWNER_NUMBER: process.env.OWNER_NUMBER || "254721898295",
     // add your bot owner number
 
-    OWNER_NAME: process.env.OWNER_NAME || "ᴍʀ sᴜɴɢ",
+    OWNER_NAME: process.env.OWNER_NAME || "𝓡𝓼 • 𝓝𝓸𝓸𝓫",
     // add bot owner name
 
     DESCRIPTION: process.env.DESCRIPTION || "*© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ sᴜɴɢ sᴜʜᴏ*",
@@ -115,7 +115,7 @@ module.exports = {
     READ_CMD: process.env.READ_CMD || "false",
     // true if want mark commands as read  
 
-    DEV: process.env.DEV || "27649342626",
+    DEV: process.env.DEV || "254721898295",
     // replace with your whatsapp number  
 
     ANTI_VV: process.env.ANTI_VV || "true",
